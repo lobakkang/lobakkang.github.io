@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8">
+<title>OpenLCD Docs</title>
+<link rel="stylesheet" href="./main.css">
+
+<body>
+   <section class="home" id="home">
+      <div class="home-inner">
+         <h1>Welcome to OpenLCD</h1>
+         <h2>The Opencomputer addon mod that provide high resolution screen</h2>
+      </div>
+   </section>
+
+   <header>
+      <div id="navbar" role="navigation">
+         <a class="active" href="#home">Home</a>
+         <a href="#showcase">Showcase</a>
+         <a href="#api">API</a>
+         <a href="#recipe">Recipe</a>
+         <a href="#BUGS">BUGS</a>
+      </div>
+   </header>
+
+
+   <section class="gs" id="gs">
+      <div class="gs-inner">
+         <h1>What is OpenLCD?</h1>
+         <h2>OpenLCD is an Opencomputer addon mod that offers you high resolution screen.
+            It is useful for those who want to draw a clear image on screen instead of using ascii character.
+         </h2>
+      </div>
+   </section>
+
+   <section class="showcase" id="showcase">
+      <div class="showcase-inner">
+         <h1>Showcase</h1>
+         <div class="row">
+            <div class="column">
+               <div class="container1">
+                  <img src="image/fractal.png" alt="fractal" class="image" style="width:100%">
+                  <div class="middle">
+                     <div class="text">This Fractal is opened in GUI</div>
+                  </div>
+               </div>
+            </div>
+            <div class="column">
+               <div class="container1">
+                  <img src="image/fractal1.png" alt="fractal1" class="image" style="width:100%">
+                  <div class="middle">
+                     <div class="text">This Fractal take 10 minute to render :P</div>
+                  </div>
+               </div>
+            </div>
+            <div class="column">
+               <div class="container1">
+                  <img src="image/no_sig.png" alt="fractal" class="image" style="width:100%">
+                  <div class="middle">
+                     <div class="text">The default image of screen when turn on</div>
+                  </div>
+               </div>
+            </div>
+            <div class="column">
+               <div class="container1">
+                  <img src="image/textview.png" alt="fractal" class="image" style="width:100%">
+                  <div class="middle">
+                     <div class="text">A set of alphabet bitmap is included in the mod</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <section class="api" id="api">
+      <div class="api-inner">
+         <h1>API</h1>
+         <h2>isOn():boolean</h2>
+         <h3>return true if LCD is on </h3>
+
+         <h2>isOff():boolean</h2>
+         <h3>return true if LCD is off </h3>
+
+         <h2>getVramSize():int</h2>
+         <h3>return vram size in bytes. Vram is width * height * 4 </h3>
+
+         <h2>turnOn()</h2>
+         <h3>turn on the LCD </h3>
+
+         <h2>turnOff()</h2>
+         <h3>turn off the LCD </h3>
+
+         <h2>getResolution():int, int</h2>
+         <h3>return width, height </h3>
+
+         <h2>setResolution(int width, int height)</h2>
+         <h3>set new LCD width and height and blank the screen. </h3>
+         <h3>WARNING: i didnt set the limit for width and height. dont be greedy or your pc will be burned </h3>
+
+         <h2>isKeyDown(int keycode):boolean</h2>
+         <h3>return true if keycode is pressed </h3>
+         <a href="https://gist.github.com/Mumfrey/5cfc3b7e14fef91b6fa56470dc05218a" class="link_keycode"
+            target="_blank">pressed here for keycode</a>
+
+         <h2>flush()</h2>
+         <h3>flush framebuffer to screen </h3>
+
+         <h2>fill(int x, int y, int w, int h, int r, int g, int b)</h2>
+         <h3>draw filled rectangle at (x, y) with size (w, h) with color (r, g ,b) </h3>
+
+         <h2>copy(int x, int y, int w, int h, byte[] data)</h2>
+         <h3>draw filled rectangle at (x, y) with size (w, h) with pixel color array, data in RGB </h3>
+
+         <h2>pixel(int x, int y, int r, int g, int b)</h2>
+         <h3>draw pixel at (x, y) with color (r, g ,b) </h3>
+
+         <h2>alphabet(char alphabet, int x, int y, int scale, int r, int g, int b)</h2>
+         <h3>draw preset alphabet bitmap at (x, y) with color (r, g ,b) with custom scale </h3>
+
+         <h2>alphabets(string alphabet, int x, int y, int scale, int r, int g, int b)</h2>
+         <h3>draw preset alphabet bitmap at (x, y) with color (r, g ,b) with custom scale in string </h3>
+      </div>
+   </section>
+
+   <section class="recipe" id="recipe">
+      <div class="recipe-inner">
+         <h1>Recipe</h1>
+         <div class="container1">
+            <img src="image/recipe.png" alt="recipe" class="image" style="width:100%">
+            <div class="middle">
+               <div class="text">4x Obsidian</div>
+               <div class="text">3x GlowStone</div>
+               <div class="text">1x Quartz</div>
+               <div class="text">1x Glass</div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <section class="BUGS" id="BUGS">
+      <div class="BUGS-inner">
+         <h1>Known bugs</h1>
+         <h2>-Block cannot combine like opencomputer screen</h2>
+         <h2>-GUI not quit with screen is turned off</h2>
+         <h3>Made with ❤️ by lobakkang</h3>
+      </div>
+   </section>
+
+   
+
+   <script>
+      window.onscroll = function () { myFunction() };
+      var navbar = document.getElementById("navbar");
+      var sticky = navbar.offsetTop;
+      function myFunction() {
+         if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+         } else {
+            navbar.classList.remove("sticky");
+         }
+      } 
+   </script>
+</body>
+
+</html>

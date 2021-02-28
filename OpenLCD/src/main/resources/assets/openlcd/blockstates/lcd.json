@@ -1,0 +1,14 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "openlcd:lcd"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}],
+        "facing=north": {"model": "openlcd:lcd"},
+        "facing=east": {"model": "openlcd:lcd", "y": 90},
+        "facing=south": {"model": "openlcd:lcd", "y": 180},
+        "facing=west": {"model": "openlcd:lcd", "y": 270}
+    }
+}

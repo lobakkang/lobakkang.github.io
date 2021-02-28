@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#G#",
+        "GQJ",
+        "#G#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:obsidian"
+        },
+        "G": {
+            "item": "minecraft:glowstone"
+        },
+        "Q": {
+            "item": "minecraft:quartz"
+        },
+        "J": {
+            "item": "minecraft:glass"
+        }
+    },
+    "result": {
+        "item": "openlcd:lcd",
+        "count": 1
+    }
+}

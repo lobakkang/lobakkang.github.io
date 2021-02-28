@@ -1,0 +1,15 @@
+[
+{
+  "modid": "openlcd",
+  "name": "openLCD",
+  "description": "addon for opencomputer that provides high resolution screen",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "updateUrl": "",
+  "authorList": ["lobakkang"],
+  "credits": "cubicoder for amazing tutorial",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

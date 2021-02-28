@@ -1,0 +1,13 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "north": "openlcd:blocks/f",
+        "west":  "openlcd:blocks/b",
+        "south": "openlcd:blocks/b",
+        "east":  "openlcd:blocks/b",
+        "up":    "openlcd:blocks/b",
+        "down":  "openlcd:blocks/b",
+        
+        "particle":  "openlcd:blocks/b"
+    }
+}
