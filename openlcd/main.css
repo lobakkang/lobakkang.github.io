@@ -96,6 +96,13 @@ body {
     color: white;
 }
 
+#navbar a.download {
+    float: right;
+    font-family: bestThinFont;
+    background-color: #fc8f00;
+    color: black;
+}
+
 /* Page content */
 
 .content {
