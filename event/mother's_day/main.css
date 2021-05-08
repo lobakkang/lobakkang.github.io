@@ -1,0 +1,85 @@
+@font-face {
+  font-family: bestThinFont;
+  src: url(../../font/Metropolis-Thin.otf);
+}
+
+@font-face {
+  font-family: bestMediumFont;
+  src: url(../../font/Metropolis-Medium.otf);
+}
+
+html,
+body {
+  padding: 0em;
+  margin: 0em;
+
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 0em;
+  width: 100vw;
+  padding: 0em;
+  margin: 0em;
+}
+
+img {
+  padding: 0em;
+  margin: 0em;
+  border: 1px solid black;
+}
+
+.mainpage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgb(170, 27, 152);
+  background: linear-gradient(
+    28deg,
+    rgba(170, 27, 152, 1) 0%,
+    rgba(253, 45, 45, 1) 100%
+  );
+
+  width: 100vw;
+  height: 100vh;
+  padding: 0em;
+  margin: 0em;
+}
+
+h1 {
+  text-align: center;
+  font-family: bestMediumFont;
+
+  padding: 0em;
+  margin: 0em;
+
+  font-size: 5em;
+}
+
+@keyframes drop {
+  0% {
+    transform: translateY(-200vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(359deg);
+    opacity: 0;
+  }
+}
+
+.droplet {
+  padding: 0em;
+  margin: 0em;
+  position: absolute;
+  z-index: 2;
+  font-size: 5em;
+  opacity: 0;
+}
+
+.anime {
+  position: fixed;
+}
