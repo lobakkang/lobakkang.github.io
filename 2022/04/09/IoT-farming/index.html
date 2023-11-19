@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Lobakkang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hello there. Recently, I joined a Swinburne workshop about IoT and get a farming kit from them. So, I will share my experience of assembling this kit. Assembling the circuit At first, I received a pac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Building a IoT farming from Swinburne workshop">
+<meta property="og:url" content="https://lobakkang.github.io/2022/04/09/IoT-farming/index.html">
+<meta property="og:site_name" content="Lobakkang&#39;s Blog">
+<meta property="og:description" content="Hello there. Recently, I joined a Swinburne workshop about IoT and get a farming kit from them. So, I will share my experience of assembling this kit. Assembling the circuit At first, I received a pac">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/material.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/wire1.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/wire2.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/pio.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/server.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/net.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/port.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/nmap.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/wireshark1.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/wireshark2.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/node_red.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/phone.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/PC.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/MQTT_down.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/node_red_down.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/good.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/idle.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/run.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/on_load.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/diagram1.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/traffic.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/IoT/nodemcu.png">
+<meta property="article:published_time" content="2022-04-09T06:18:51.000Z">
+<meta property="article:modified_time" content="2023-11-15T05:15:23.558Z">
+<meta property="article:author" content="Lobakkang">
+<meta property="article:tag" content="coding">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lobakkang.github.io/images/info_img/IoT/material.jpg">
+  
+  
+  <title>Building a IoT farming from Swinburne workshop - Lobakkang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/./css/icon.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lobakkang.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":15,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lobakkang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/images/post_img/IoT.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Building a IoT farming from Swinburne workshop">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-09 14:18" pubdate>
+        April 9, 2022 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.9k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Building a IoT farming from Swinburne workshop</h1>
+            
+            <div class="markdown-body">
+              <p>Hello there. Recently, I joined a Swinburne workshop about IoT and get a farming kit from them. So, I will share my experience of assembling this kit.</p>
+<h1 id="Assembling-the-circuit"><a href="#Assembling-the-circuit" class="headerlink" title="Assembling the circuit"></a>Assembling the circuit</h1><p><img src="/images/info_img/IoT/material.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>At first, I received a package of electronic component and started to connect the main board to battery. Unfortunately, the wire of battery holder is broken and the main board cannot turn on.</p>
+<p><img src="/images/info_img/IoT/wire1.png" srcset="/img/loading.gif" lazyload></p>
+<p>After measuring both wire using multimeter, I noticed that somewhere in the middle of red wire is broken. To fix this, I just cut off the wire and replace it using a jumper wire from the farming kit. After the soldering iron is hot enough, the new wire is soldered in place.</p>
+<p><img src="/images/info_img/IoT/wire2.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Writing-boilerplate-code-and-preparing-server"><a href="#Writing-boilerplate-code-and-preparing-server" class="headerlink" title="Writing boilerplate code and preparing server"></a>Writing boilerplate code and preparing server</h1><p>Based on the workshop, I should use Arduino IDE with ESP plugin to program the main board which is a nodeMCU with esp-12e core. But, the Arduino IDE for Linux is come in appimage format and I don’t want to pollute my precious EXT4 file system with appimage. So, I use PlatformIO instead. By setting the board to esp-12e in platformIO config file and write a Hello World c++ code, everything is good to go.</p>
+<p><img src="/images/info_img/IoT/pio.png" srcset="/img/loading.gif" lazyload></p>
+<p>After, making a working program run successfully on the nodeMCU, it’s time to prepare the server side thing. The platform I am going to run the MQTT server and node red server is a TV box installed with armbian instead of my laptop. The reason is I want to make the IoT farming robot run 24 hrs and really use it in real life. So, running a server on my laptop is not a good idea. </p>
+<p><img src="/images/info_img/IoT/server.png" srcset="/img/loading.gif" lazyload></p>
+<p>Luckily, the MQTT broker server I am going to use, mosquitto is available in armbian repository. Meanwhile, the Node Red can be installed from npm repository. After installing all the thing I need, I started to configure the mosquitto. Due to the IoT farm is going to use in real life, everything need to be secure and practical. So, I added auth username and password to the config.</p>
+<p>However, due to my home weird networking, the server is actually unreachable to nodeMCU. This is because they are separated by two router in two different LAN. </p>
+<p><img src="/images/info_img/IoT/net.png" srcset="/img/loading.gif" lazyload></p>
+<p>To establish the connection, there are two way. First, is by using P2P VPN, <a target="_blank" rel="noopener" href="https://my.zerotier.com/">zerotier</a> to something like a virtual LAN but installing a VPN client on a tiny ESP is not practical. So, I am going to use another way, port forwarding. Basically, I port forward the MQTT port of the server, 1883 to a port of the secondary router, 6969. </p>
+<p><img src="/images/info_img/IoT/port.png" srcset="/img/loading.gif" lazyload></p>
+<p>Then, to ensure the port is really working, I scan the port from the primary router using nmap.</p>
+<p><img src="/images/info_img/IoT/nmap.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Coding-for-NodeMCU"><a href="#Coding-for-NodeMCU" class="headerlink" title="Coding for NodeMCU"></a>Coding for NodeMCU</h1><p>Now, the server preparation is done. It’s time to write some code for NodeMCU. Unfortunately, I delay this for too long until the example code for IoT farming in WhatsApp is not available. So, I have to write everything on my own. After, a few hours of writing and search endless of Stack Overflow, I finally make a prototype code. When I upload it onto the NodeMCU, I was full of disappointment because it is not working. No matter how I change the coding logic, the code is still not working. </p>
+<p>As a senior programmer of SMK Jalan Arang robotics club, I smell something sus in the networking. I scanned the LAN traffic using wireshark with MITM sniffing and realize there are no out going packet from NodeMCU but the ping is still working.</p>
+<p><img src="/images/info_img/IoT/wireshark1.png" srcset="/img/loading.gif" lazyload></p>
+<p>I discussed with another robotic club senior, Declan and he suggest me to use datatype IPAddress to define server address:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs c">IPAddress <span class="hljs-title function_">server</span><span class="hljs-params">(<span class="hljs-number">192</span>, <span class="hljs-number">168</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)</span>; <br></code></pre></td></tr></table></figure>
+<p>instead of write it in URL:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span>* server = <span class="hljs-string">&quot;192.168.0.2&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>After that, the code is finally working. (In the screenshot, I test it using a MQTT server installed on my laptop)<br><img src="/images/info_img/IoT/wireshark2.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Node-Red-Server"><a href="#Node-Red-Server" class="headerlink" title="Node Red Server"></a>Node Red Server</h1><p>Now, coding for NodeMCU is done. It’s time to code the Node Red Server. Since Node Red use drag and drop to do coding, this step is far easier than previous steps. </p>
+<p><img src="/images/info_img/IoT/node_red.png" srcset="/img/loading.gif" lazyload></p>
+<p>Then, here’s the ui. To access the web page, P2P VPN is required to connect.</p>
+<h3 id="phone"><a href="#phone" class="headerlink" title="phone"></a>phone</h3><p><img src="/images/info_img/IoT/phone.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="PC"><a href="#PC" class="headerlink" title="PC"></a>PC</h3><p><img src="/images/info_img/IoT/PC.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Connectivity-indicator"><a href="#Connectivity-indicator" class="headerlink" title="Connectivity indicator"></a>Connectivity indicator</h1><p>To make use of the LED traffic light from the farming kit, I am going to use it as connectivity indicator. </p>
+<h3 id="MQTT-server-down"><a href="#MQTT-server-down" class="headerlink" title="MQTT server down"></a>MQTT server down</h3><p>If the MQTT server is down, red and orange led will turn on.</p>
+<p><img src="/images/info_img/IoT/MQTT_down.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Node-Red-server-down"><a href="#Node-Red-server-down" class="headerlink" title="Node Red server down"></a>Node Red server down</h3><p>If the Node Red server is down, green and orange led will turn on.</p>
+<p><img src="/images/info_img/IoT/node_red_down.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Everything-in-good-status"><a href="#Everything-in-good-status" class="headerlink" title="Everything in good status"></a>Everything in good status</h3><p>If both servers is online, green led will turn on.</p>
+<p><img src="/images/info_img/IoT/good.jpg" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Power-consumption-test"><a href="#Power-consumption-test" class="headerlink" title="Power consumption test"></a>Power consumption test</h1><p>Because this IoT farm is going to use for a long time, understand its power consumption is important so the battery wont run out so often. To test the power consumption, I use a lab bench power supply which has ammeter and set its output voltage to around 8.5V. (The voltmeter of the power supply has zero error so 9V might burn the circuit.)</p>
+<h2 id="normal-condition-water-pump-off"><a href="#normal-condition-water-pump-off" class="headerlink" title="normal condition (water pump off)"></a>normal condition (water pump off)</h2><p><img src="/images/info_img/IoT/idle.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="running-condition-water-pump-on-but-no-load"><a href="#running-condition-water-pump-on-but-no-load" class="headerlink" title="running condition (water pump on but no load)"></a>running condition (water pump on but no load)</h2><p><img src="/images/info_img/IoT/run.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="on-load-condition-water-pump-on-and-pumping-water"><a href="#on-load-condition-water-pump-on-and-pumping-water" class="headerlink" title="on-load condition (water pump on and pumping water)"></a>on-load condition (water pump on and pumping water)</h2><p><img src="/images/info_img/IoT/on_load.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>So, here is the result:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Voltage</th>
+<th>Ampere</th>
+<th>Power</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>idle</td>
+<td>8.5V</td>
+<td>0.05A</td>
+<td>0.425W</td>
+</tr>
+<tr>
+<td>no load</td>
+<td>8.6V</td>
+<td>0.35A</td>
+<td>3.01W</td>
+</tr>
+<tr>
+<td>on load</td>
+<td>8.2V</td>
+<td>0.6A</td>
+<td>4.92W</td>
+</tr>
+</tbody></table>
+<p>The power consumption in idle condition is quite high if it is only power by non-rechargable battery. So, I will replace the power supply to solar panel in the future.</p>
+<h1 id="Mechanism-behind-it"><a href="#Mechanism-behind-it" class="headerlink" title="Mechanism behind it"></a>Mechanism behind it</h1><h2 id="Connection-diagram"><a href="#Connection-diagram" class="headerlink" title="Connection diagram"></a>Connection diagram</h2><p>As a summary, here is the connection diagram between each device.</p>
+<p><img src="/images/info_img/IoT/diagram1.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li>Wifi connection between primary router and NodeMCU.</li>
+<li>connection between primary router and secondary router sparated into two LAN.</li>
+<li>connection between secondary router and Armbian server with Internet access.</li>
+<li>Armbian server connected to p2p vpn through both router.</li>
+<li>Outer device can route through p2p vpn and able to access secondary router LAN via armbian server ip forwarding.</li>
+</ol>
+<h2 id="MQTT"><a href="#MQTT" class="headerlink" title="MQTT"></a>MQTT</h2><p>Meanwhile, the MQTT part is quite simple, only three event involved. </p>
+<ul>
+<li>waterLvl - Indicate moisture in soil, the higher the value, the less moist the soil.</li>
+<li>motor - Control pump. If value is 0, then turn on the pump, vice versa.</li>
+<li>pong - Used to indicate whether Node Red server is working. (actually can use motor event to indicate)</li>
+</ul>
+<p><img src="/images/info_img/IoT/traffic.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Flowchart"><a href="#Flowchart" class="headerlink" title="Flowchart"></a>Flowchart</h2><p>I only do the flowchart for the NodeMCU side because Node Red is already use graphical programming to program.</p>
+<p><img src="/images/info_img/IoT/nodemcu.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;ESP8266WiFi.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;PubSubClient.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Arduino.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;core_esp8266_features.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pins_arduino.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> LED_BUILTIN</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LED_BUILTIN 13</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> R_LED 4</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> G_LED 16</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> Y_LED 5</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MOTOR 14</span><br><br><span class="hljs-function">IPAddress <span class="hljs-title">server</span><span class="hljs-params">(<span class="hljs-number">192</span>, <span class="hljs-number">168</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)</span></span>;<br><br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> lastPing = <span class="hljs-number">0</span>;<br><br>WiFiClient espClient;<br><span class="hljs-function">PubSubClient <span class="hljs-title">client</span><span class="hljs-params">(espClient)</span></span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> lastMsg = <span class="hljs-number">0</span>;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MSG_BUFFER_SIZE (50)</span><br><span class="hljs-type">char</span> msg[MSG_BUFFER_SIZE];<br><span class="hljs-type">int</span> value = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">callback</span><span class="hljs-params">(<span class="hljs-type">char</span> *topic, byte *payload, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> length)</span> </span>&#123;<br>  Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Message arrived [&quot;</span>);<br>  Serial.<span class="hljs-built_in">print</span>(topic);<br>  Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;] &quot;</span>);<br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) &#123;<br>    Serial.<span class="hljs-built_in">print</span>((<span class="hljs-type">char</span>)payload[i]);<br>  &#125;<br>  Serial.<span class="hljs-built_in">println</span>();<br><br>  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(topic, <span class="hljs-string">&quot;motor&quot;</span>) == <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-keyword">if</span> ((<span class="hljs-type">char</span>)payload[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;0&#x27;</span>) &#123;<br>      <span class="hljs-built_in">digitalWrite</span>(MOTOR,<br>                   LOW);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-built_in">digitalWrite</span>(MOTOR,<br>                   HIGH);<br>    &#125;<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(topic, <span class="hljs-string">&quot;pong&quot;</span>) == <span class="hljs-number">0</span>) &#123;<br>    lastPing = <span class="hljs-built_in">millis</span>();<br>  &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">reconnect</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-keyword">while</span> (!client.<span class="hljs-built_in">connected</span>()) &#123;<br>    Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Attempting MQTT connection...&quot;</span>);<br>    <span class="hljs-keyword">if</span> (client.<span class="hljs-built_in">connect</span>(<span class="hljs-string">&quot;farm_esp&quot;</span>, <span class="hljs-string">&quot;******&quot;</span>, <span class="hljs-string">&quot;******&quot;</span>)) &#123;<br>      <span class="hljs-built_in">digitalWrite</span>(R_LED, LOW);<br>      <span class="hljs-built_in">digitalWrite</span>(G_LED, LOW);<br>      <span class="hljs-built_in">digitalWrite</span>(Y_LED, LOW);<br>      Serial.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;connected&quot;</span>);<br>      client.<span class="hljs-built_in">subscribe</span>(<span class="hljs-string">&quot;motor&quot;</span>);<br>      client.<span class="hljs-built_in">subscribe</span>(<span class="hljs-string">&quot;pong&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-built_in">digitalWrite</span>(R_LED, HIGH);<br>      <span class="hljs-built_in">digitalWrite</span>(G_LED, LOW);<br>      <span class="hljs-built_in">digitalWrite</span>(Y_LED, HIGH);<br>      Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;failed, rc=&quot;</span>);<br>      Serial.<span class="hljs-built_in">print</span>(client.<span class="hljs-built_in">state</span>());<br>      Serial.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot; try again in 5 seconds&quot;</span>);<br>      <span class="hljs-built_in">delay</span>(<span class="hljs-number">5000</span>);<br>    &#125;<br>  &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>&#123;<br>  Serial.<span class="hljs-built_in">begin</span>(<span class="hljs-number">115200</span>);<br>  <span class="hljs-built_in">pinMode</span>(LED_BUILTIN, OUTPUT);<br>  <span class="hljs-built_in">pinMode</span>(R_LED, OUTPUT);<br>  <span class="hljs-built_in">pinMode</span>(G_LED, OUTPUT);<br>  <span class="hljs-built_in">pinMode</span>(Y_LED, OUTPUT);<br>  <span class="hljs-built_in">pinMode</span>(MOTOR, OUTPUT);<br><br>  <span class="hljs-built_in">digitalWrite</span>(R_LED, HIGH);<br>  <span class="hljs-built_in">digitalWrite</span>(G_LED, HIGH);<br>  <span class="hljs-built_in">digitalWrite</span>(Y_LED, HIGH);<br><br>  <span class="hljs-built_in">digitalWrite</span>(MOTOR, HIGH);<br><br>  Serial.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;WiFi connecting&quot;</span>);<br>  WiFi.<span class="hljs-built_in">begin</span>(<span class="hljs-string">&quot;****&quot;</span>, <span class="hljs-string">&quot;****&quot;</span>);<br>  <span class="hljs-keyword">while</span> (WiFi.<span class="hljs-built_in">status</span>() != WL_CONNECTED) &#123;<br>    <span class="hljs-built_in">delay</span>(<span class="hljs-number">500</span>);<br>    Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;*&quot;</span>);<br>  &#125;<br><br>  Serial.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;&quot;</span>);<br>  Serial.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;WiFi connection Successful&quot;</span>);<br>  Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The IP Address of ESP8266 Module is: &quot;</span>);<br>  Serial.<span class="hljs-built_in">print</span>(WiFi.<span class="hljs-built_in">localIP</span>());<br><br>  <span class="hljs-built_in">digitalWrite</span>(R_LED, LOW);<br>  <span class="hljs-built_in">digitalWrite</span>(G_LED, LOW);<br>  <span class="hljs-built_in">digitalWrite</span>(Y_LED, LOW);<br>  client.<span class="hljs-built_in">setServer</span>(server, <span class="hljs-number">6969</span>);<br>  client.<span class="hljs-built_in">setCallback</span>(callback);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-keyword">if</span> (!client.<span class="hljs-built_in">connected</span>()) &#123;<br>    <span class="hljs-built_in">reconnect</span>();<br>    <span class="hljs-built_in">delay</span>(<span class="hljs-number">500</span>);<br>  &#125;<br>  client.<span class="hljs-built_in">loop</span>();<br><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> now = <span class="hljs-built_in">millis</span>();<br>  <span class="hljs-keyword">if</span> (now - lastMsg &gt; <span class="hljs-number">2000</span>) &#123;<br>    lastMsg = now;<br>    ++value;<br>    <span class="hljs-built_in">snprintf</span>(msg, <span class="hljs-number">10</span>, <span class="hljs-string">&quot;%i&quot;</span>, <span class="hljs-built_in">analogRead</span>(A0));<br>    Serial.<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Publish message: &quot;</span>);<br>    Serial.<span class="hljs-built_in">println</span>(msg);<br>    client.<span class="hljs-built_in">publish</span>(<span class="hljs-string">&quot;waterLvl&quot;</span>, msg);<br>  &#125;<br><br>  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">millis</span>() - lastPing &gt; <span class="hljs-number">10000</span>) &#123;<br>    <span class="hljs-built_in">digitalWrite</span>(Y_LED, HIGH);<br>    <span class="hljs-built_in">digitalWrite</span>(G_LED, LOW);<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-built_in">digitalWrite</span>(G_LED, HIGH);<br>    <span class="hljs-built_in">digitalWrite</span>(Y_LED, LOW);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/coding/">coding</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/14/8bit-cpu-01/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Design a 8 bit CPU ISA</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/03/codm-keymapper/">
+                        <span class="hidden-mobile">Call of Duty mobile keymapper using adb</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+  
+<script src="//at.alicdn.com/t/font_3169125_i0fah447az9.js"></script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,598 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Lobakkang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hello, there. I’m sorry for not updating for more than half a year. Well, I just finished my SPM. Anyway, I was free during these few months. I am planning to do some research in Machine Learning. I a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hijacking and overclocking an TV box">
+<meta property="og:url" content="https://lobakkang.github.io/2023/03/14/overclock/index.html">
+<meta property="og:site_name" content="Lobakkang&#39;s Blog">
+<meta property="og:description" content="Hello, there. I’m sorry for not updating for more than half a year. Well, I just finished my SPM. Anyway, I was free during these few months. I am planning to do some research in Machine Learning. I a">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/boot.jpg">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm9.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm-before.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm-dtc-1.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm-cpu.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm-middle.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm_thermal.png">
+<meta property="og:image" content="https://lobakkang.github.io/images/armbian/arm-after.png">
+<meta property="article:published_time" content="2023-03-14T13:16:39.000Z">
+<meta property="article:modified_time" content="2023-11-15T05:05:04.421Z">
+<meta property="article:author" content="Lobakkang">
+<meta property="article:tag" content="non-coding">
+<meta property="article:tag" content="arm">
+<meta property="article:tag" content="server">
+<meta property="article:tag" content="Armbian">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lobakkang.github.io/images/armbian/arm.png">
+  
+  
+  <title>Hijacking and overclocking an TV box - Lobakkang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/./css/icon.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lobakkang.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":15,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lobakkang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Hijacking and overclocking an TV box">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-03-14 21:16" pubdate>
+        March 14, 2023 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.9k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Hijacking and overclocking an TV box</h1>
+            
+            <div class="markdown-body">
+              <p>Hello, there. I’m sorry for not updating for more than half a year. Well, I just finished my SPM. Anyway, I was free during these few months. I am planning to do some research in Machine Learning. I also want to do some projects related to it. However, Machine Learning usually is computationally expensive and requires a 24-hour server to operate. </p>
+<p>Initially, I attempted to utilize Google Colab due to its popularity among the experts in this field. However, I decided to avoid it because of its pricing. Then, I also attempted Amazon AWS and Microsoft Azure, but they were not a good fit for my needs. Finally, I gave up on the cloud server and tried to rescue my tv box.</p>
+<p>I installed my tv box with Armbian to use as a private server. Unfortunately, it broke down after I attempted to run TensorFlow on it during a competition a few months ago. Luckily, I can fix it by restoring the corrupted eMMC.</p>
+<h1 id="Installing-Armbian"><a href="#Installing-Armbian" class="headerlink" title="Installing Armbian"></a>Installing Armbian</h1><h2 id="Building-OS-image"><a href="#Building-OS-image" class="headerlink" title="Building OS image"></a>Building OS image</h2><p>Initially, this TV box used the RockChip RK3318 processor and 4GB of RAM. Unfortunately, Armbian was not officially supported on this hardware at the time. Consequently, I had to resort to some sneaky hacks to get it to boot. Fortunately, there was an experimental Armbian image available that I was able to use. So, I downloaded the <a target="_blank" rel="noopener" href="https://github.com/armbian/build">build repository</a> and tried to compile it. </p>
+<p><img src="/images/armbian/arm.png" srcset="/img/loading.gif" lazyload></p>
+<p>The build process is relatively straightforward. First, select the correct board config and let the automated script do the rest. Once everything has settled, I flashed the compiled Armbian image onto a 32GB class-10 SD card. Once the flashing process is done, just simply insert it into the board.</p>
+<h2 id="Booting"><a href="#Booting" class="headerlink" title="Booting"></a>Booting</h2><p><img src="/images/armbian/boot.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>To ensure the Armbian runs correctly, I plugged its HDMI to a television instead of hooking it directly to router. After about 2 minutes of black screen and silent, something finally showed up on the monitor. At this point, I confirmed that everything works fine. I then connected it to router and allocate a static IP, <code>192.168.0.169</code>. This ensured that the device had a consistent IP address and could be easily accessed on the network.</p>
+<p><img src="/images/armbian/arm9.png" srcset="/img/loading.gif" lazyload></p>
+<p>One of the convenient aspects of Armbian is that once it detects an accessible network, it automatically starts the SSH service. Hence, I can access the device via my laptop without plugging in keyboard and monitor into it. After setting root user password and other staff, I finally greeted by a neofetch screen.</p>
+<p>However, the underclocked CPU at 1.008GHz locked clock speed is currently the main weakness of the system. My goal is running CPU intensive tasks on this board and use all of its values. For example, cryptomining. </p>
+<h1 id="Overclock"><a href="#Overclock" class="headerlink" title="Overclock"></a>Overclock</h1><h2 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h2><p>Alright, before getting into the deep overclocking rabbit hole, I would like to do some benchmark for comparison later on. After doing some quick research on Google, I choose 7zip builtin benchmark because it is primaryly targets on CPU computing performance rather than other aspect such as RAM and cache. To perform the benchmark, just use the following command:</p>
+<blockquote>
+<p>7z -b</p>
+</blockquote>
+<p><img src="/images/armbian/arm-before.png" srcset="/img/loading.gif" lazyload></p>
+<p>After waiting the benchmark result patiently, I was genuinely dissappointed. On average, the compressing speed was around <code>1.5 megabytes per second</code>, while the decompressing speed was only <code>32 megabytes per second</code>.  This is painfully slow compared to my potato toaster laptop, which has a compressing speed of <code>16mb/s</code> and a decompressing speed of <code>200mb/s</code>. It is clear that this setup is not complete yet. I searched the CPU datasheet and found that the maximum clock speed before burnout is <code>1.4GHz</code> and the highest CPU operating voltage is <code>1.35V</code>. It is apparently that the board is not running at its full potential.</p>
+<h2 id="Finding-way-to-overclock"><a href="#Finding-way-to-overclock" class="headerlink" title="Finding way to overclock"></a>Finding way to overclock</h2><p>To be honest, this is my first time overclocking a electronic device. Yes, not a laptop, not a desktop, but a Linux-loaded tv box. Luckily, Linux is open source and the way to crank the CPU frequency is far easier than I think. Since this device is orientated as an ARM powered embedded system, all the hardware related configuration is stored in a systel file called <code>Device Tree Blob (DTB)</code>. Thankfully, the <code>armbian-config</code> utility software has option to open the <code>DTB</code> directly in <code>vi</code>.  </p>
+<p><img src="/images/armbian/arm-dtc-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>After searching across the source of <code>DTB</code>, I came to an OPP table or operating point table and found that there are two entry of <code>1.2GHz</code> and <code>1.296GHz</code> disabled at default. I removed the line of <code>disabled</code> and built the <code>DTB</code> again. After reboot, the two new frequency selection is shown.</p>
+<p><img src="/images/armbian/arm-cpu.png" srcset="/img/loading.gif" lazyload></p>
+<p>Then, I rerun the benchmark. To my surprise, the performance increases at amount of about doubled (decompressing speed). Whereas no significant increase in CPU temperature.</p>
+<p><img src="/images/armbian/arm-middle.png" srcset="/img/loading.gif" lazyload><br><img src="/images/armbian/arm_thermal.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Push-the-CPU-limit-before-disaster-happen"><a href="#Push-the-CPU-limit-before-disaster-happen" class="headerlink" title="Push the CPU limit before disaster happen"></a>Push the CPU limit before disaster happen</h2><p>Of course, 1.296GHz is not my final goal. The maximum frequency is 1.4GHz and I wondered that whether it is a real limit or just a “recommendation”. Then, I tried to mess with the value of <code>opp-hz</code> and <code>opp-microvolt</code> in the OPP table. After converting the hexidecimal value to decimal form. I found out that they are just the CPU clock speed in Hertz and logic voltage in microvolt.</p>
+<table>
+<thead>
+<tr>
+<th>opp-hz</th>
+<th>Clock speed (Hz)</th>
+<th>opp-microvolt</th>
+<th>Logic voltage (uV)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x47868C00</td>
+<td>1200000000</td>
+<td>0x124F80</td>
+<td>1200000</td>
+</tr>
+<tr>
+<td>0x4D3F6400</td>
+<td>1296000000</td>
+<td>0x137478</td>
+<td>1275000</td>
+</tr>
+</tbody></table>
+<p>Alright, this blog is already quite long. Long story short, after one sleepless night, I tried almost all possible combination of frequency and logic voltage. The device undergoes three system freezes and overheated for dozen times. I realized the 1.4GHz is really a barrier. Although the <code>cortex A53 core</code> can theorically reach 2.04GHz but the <code>RK3318</code> is somehow limit it. Hence, the system become unstable when the CPU frequency goes beyond 1.4GHz. The highest config after lot of trials and errors are <code>1.32GHz</code> and <code>1.325V</code>. Here’s the hex values:</p>
+<table>
+<thead>
+<tr>
+<th>opp-hz</th>
+<th>Clock speed (Hz)</th>
+<th>opp-microvolt</th>
+<th>Logic voltage (uV)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x4EAD9A00</td>
+<td>1320000000</td>
+<td>0x1437C8</td>
+<td>1325000</td>
+</tr>
+</tbody></table>
+<h1 id="Final-result"><a href="#Final-result" class="headerlink" title="Final result"></a>Final result</h1><p><img src="/images/armbian/arm-after.png" srcset="/img/loading.gif" lazyload></p>
+<table>
+<thead>
+<tr>
+<th>Clock speed (GHz)</th>
+<th>Compression speed (mb&#x2F;s)</th>
+<th>Decompressing speed (mb&#x2F;s)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.008</td>
+<td>1.5</td>
+<td>32.0</td>
+</tr>
+<tr>
+<td>1.296</td>
+<td>1.9</td>
+<td>40.0</td>
+</tr>
+<tr>
+<td>1.320</td>
+<td>2.1</td>
+<td>52.0</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/non-coding/">non-coding</a>
+                    
+                      <a class="hover-with-bg" href="/tags/arm/">arm</a>
+                    
+                      <a class="hover-with-bg" href="/tags/server/">server</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Armbian/">Armbian</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/25/printing-server/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Homemade 24-Hour printing server</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/09/hp_39gs/">
+                        <span class="hidden-mobile">HP 39gs hpgcc aplet development</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+  
+<script src="//at.alicdn.com/t/font_3169125_i0fah447az9.js"></script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,778 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Lobakkang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hello there. It been a while for me not updating my blog. This is because last week I was quite busy with the school exam. Anyways, let’s learn how to control atmega328p timer by controlling register">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Atmega328p timer">
+<meta property="og:url" content="https://lobakkang.github.io/2022/02/15/atmega328p-timer-delay/index.html">
+<meta property="og:site_name" content="Lobakkang&#39;s Blog">
+<meta property="og:description" content="Hello there. It been a while for me not updating my blog. This is because last week I was quite busy with the school exam. Anyways, let’s learn how to control atmega328p timer by controlling register">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lobakkang.github.io/images/info_img/timer_simple_diagram.png">
+<meta property="article:published_time" content="2022-02-15T11:49:59.000Z">
+<meta property="article:modified_time" content="2023-11-15T04:02:14.313Z">
+<meta property="article:author" content="Lobakkang">
+<meta property="article:tag" content="coding">
+<meta property="article:tag" content="avr">
+<meta property="article:tag" content="robotics">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="atmega328p">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lobakkang.github.io/images/info_img/timer_simple_diagram.png">
+  
+  
+  <title>Atmega328p timer - Lobakkang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/./css/icon.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lobakkang.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":15,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lobakkang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Atmega328p timer">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-15 19:49" pubdate>
+        February 15, 2022 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Atmega328p timer</h1>
+            
+            <div class="markdown-body">
+              <p>Hello there. It been a while for me not updating my blog. This is because last week I was quite busy with the school exam. Anyways, let’s learn how to control atmega328p timer by controlling register directly. The aim of this blog is using the internal timer to achieve timestamp since start and delay function. </p>
+<h2 id="How-a-timer-works"><a href="#How-a-timer-works" class="headerlink" title="How a timer works"></a>How a timer works</h2><p>To explain this, I have drawn a simplified diagram which show its mechanism.</p>
+<p><img src="/images/info_img/timer_simple_diagram.png" srcset="/img/loading.gif" lazyload></p>
+<p>DISCLAIMER: This diagram is not the complete block diagram of the timer but it is enough for learning how timer works.</p>
+<p>Basically, only two register need to handle. They are TCNTn (Timer&#x2F;Counter) and TCCRX (Timer&#x2F;Counter control register).</p>
+<h2 id="Register-Description"><a href="#Register-Description" class="headerlink" title="Register Description"></a>Register Description</h2><p>There are three timer in atmega328p. Although their specification are slightly different, their registers are still similar. So, I will only show the first timer register in this blog. For the others, you can refer to the <a target="_blank" rel="noopener" href="https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf">official datasheet</a> from page 74.</p>
+<h3 id="Timer-0-8-bits"><a href="#Timer-0-8-bits" class="headerlink" title="Timer 0 (8 bits)"></a>Timer 0 (8 bits)</h3><h4 id="TCCR0A-Timer-x2F-Counter-0-control-register"><a href="#TCCR0A-Timer-x2F-Counter-0-control-register" class="headerlink" title="TCCR0A (Timer&#x2F;Counter 0 control register"></a>TCCR0A (Timer&#x2F;Counter 0 control register</h4><table>
+<thead>
+<tr>
+<th>Bit</th>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Name</td>
+<td>COM0A1</td>
+<td>COM0A0</td>
+<td>COM0B1</td>
+<td>COM0B0</td>
+<td>-</td>
+<td>-</td>
+<td>WGM01</td>
+<td>WGM00</td>
+</tr>
+<tr>
+<td>IO</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+<td>R</td>
+<td>R</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+</tr>
+<tr>
+<td>Init</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<h4 id="TCCR0B-Timer-x2F-Counter-0-control-register-B"><a href="#TCCR0B-Timer-x2F-Counter-0-control-register-B" class="headerlink" title="TCCR0B (Timer&#x2F;Counter 0 control register B)"></a>TCCR0B (Timer&#x2F;Counter 0 control register B)</h4><table>
+<thead>
+<tr>
+<th>Bit</th>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Name</td>
+<td>FOC0A</td>
+<td>FOC0B</td>
+<td>-</td>
+<td>-</td>
+<td>WGM02</td>
+<td>CS02</td>
+<td>CS01</td>
+<td>CS00</td>
+</tr>
+<tr>
+<td>IO</td>
+<td>W</td>
+<td>W</td>
+<td>R</td>
+<td>R</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+<td>R&#x2F;W</td>
+</tr>
+<tr>
+<td>Init</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>Compare mode bit (COM0A1, COM0A0, COM0B1, COM0B0) are for PWM and not important in this blog. Meanwhile, wavefront generation mode (WGM01, WGM 00) are important for configuring TOV0 interrupt (Timer 0 Overflow) trigger value. This can be done by refering to the table below.</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>WGM02</th>
+<th>WGM01</th>
+<th>WGM00</th>
+<th>TOP</th>
+<th>TOV Flag Set on</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0xFF</td>
+<td>MAX</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0xFF</td>
+<td>BOTTOM</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>OCRA</td>
+<td>MAX</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>BOTTOM</td>
+<td>MAX</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>OCRA</td>
+<td>BOTTOM</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>OCRA</td>
+<td>TOP</td>
+</tr>
+</tbody></table>
+<p>Force Output Compare (FOC0A, FOC0B) is not in today’s topic so we are not going to discuss about it. However, clock selection bit (CS00, CS01, CS02) is necessary for setting clock prescaler. Here’s the configuration that can be done.</p>
+<table>
+<thead>
+<tr>
+<th>CS02</th>
+<th>CS01</th>
+<th>CS00</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>No clock source (Timer&#x2F;Counter stopped)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>clk I&#x2F;O &#x2F;(no prescaling)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>clk I&#x2F;O &#x2F;8 (from prescaler)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>clk I&#x2F;O &#x2F;64 (from prescaler)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>clk I&#x2F;O &#x2F;256 (from prescaler)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>clk I&#x2F;O &#x2F;1024 (from prescaler)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>External clock source on T0 pin. Clock on falling edge.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>External clock source on T0 pin. Clock on rising edge.</td>
+</tr>
+</tbody></table>
+<p>Now, we already know the registers and their usages. But, there’s still a thing we need to learn. It is the TOV, timer overflow interrupt. However, it is initially disabled by the control unit. To enable it, we need to write a logical one to TOIE (Timer&#x2F;Counter0 Overflow Interrupt Enable) bit to TIMSK (Timer&#x2F;Counter Interrupt Mask Register). </p>
+<h2 id="How-to-achieve-millis-and-micros-function"><a href="#How-to-achieve-millis-and-micros-function" class="headerlink" title="How to achieve millis() and micros() function"></a>How to achieve millis() and micros() function</h2><h3 id="millis"><a href="#millis" class="headerlink" title="millis()"></a>millis()</h3><p>At first, TOV interrupt ISR is needed. </p>
+<p>When interrupt is triggered:</p>
+<ol>
+<li>Increase <code>timer0_overflow_count</code> by 1</li>
+<li>Add the <code>timer0_millis</code> with millisecond per overflow</li>
+<li>Add the fraction value of millisecond per overflow to <code>timer0_fract</code></li>
+<li>If <code>timer0_fract</code> overflow, <code>timer0_fract</code> clear and <code>timer0_millis</code> increase by 1</li>
+</ol>
+<p>When millis() function is called:</p>
+<ol>
+<li>store state register and disable interrupt by <code>cli()</code></li>
+<li>store <code>timer0_millis</code> to <code>m</code></li>
+<li>restore state register</li>
+<li>return <code>m</code></li>
+</ol>
+<h3 id="micros"><a href="#micros" class="headerlink" title="micros()"></a>micros()</h3><p>When micros() function is called:</p>
+<ol>
+<li>store state register and disable interrupt by <code>cli()</code></li>
+<li>store <code>timer0_overflow_count</code> to <code>m</code></li>
+<li>fetch <code>TCNT0</code> value to <code>t</code></li>
+<li>if TOV0 bit in TIFR0 is one, increase <code>m</code> by 1</li>
+<li>shift <code>m</code> to left by 8 bit and add with <code>t</code> </li>
+<li>multiple <code>m</code> by 4</li>
+<li>restore state register</li>
+<li>return <code>m</code></li>
+</ol>
+<p>For further understanding, you can refer to <a target="_blank" rel="noopener" href="https://github.com/lobakkang/arang-framework/blob/main/src/kernel/timer.c">my code</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/AVR-tutorial/">AVR tutorial</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/coding/">coding</a>
+                    
+                      <a class="hover-with-bg" href="/tags/avr/">avr</a>
+                    
+                      <a class="hover-with-bg" href="/tags/robotics/">robotics</a>
+                    
+                      <a class="hover-with-bg" href="/tags/c/">c</a>
+                    
+                      <a class="hover-with-bg" href="/tags/atmega328p/">atmega328p</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/27/python-serial-monitor/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Custom Python Serial Monitor</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/07/atmega328p-pwm/">
+                        <span class="hidden-mobile">Atmega328p PWM control using register</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+  
+<script src="//at.alicdn.com/t/font_3169125_i0fah447az9.js"></script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

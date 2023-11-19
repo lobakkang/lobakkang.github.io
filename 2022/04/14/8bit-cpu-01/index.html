@@ -1,0 +1,624 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/avatar.jpg">
+  <link rel="icon" href="/images/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Lobakkang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Hello there. I am going to design a 8 bit CPU because I actually has design a 3 bit cpu before when I was in form 1. Although the cpu is barely working but it give me a nostalgia feeling. Now, I want">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design a 8 bit CPU ISA">
+<meta property="og:url" content="https://lobakkang.github.io/2022/04/14/8bit-cpu-01/index.html">
+<meta property="og:site_name" content="Lobakkang&#39;s Blog">
+<meta property="og:description" content="Hello there. I am going to design a 8 bit CPU because I actually has design a 3 bit cpu before when I was in form 1. Although the cpu is barely working but it give me a nostalgia feeling. Now, I want">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-14T06:23:21.000Z">
+<meta property="article:modified_time" content="2023-11-15T04:02:14.313Z">
+<meta property="article:author" content="Lobakkang">
+<meta property="article:tag" content="8-bit CPU">
+<meta property="article:tag" content="non-coding">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Design a 8 bit CPU ISA - Lobakkang&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/./css/icon.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lobakkang.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":15,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Lobakkang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Design a 8 bit CPU ISA">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-14 14:23" pubdate>
+        April 14, 2022 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Design a 8 bit CPU ISA</h1>
+            
+            <div class="markdown-body">
+              <p>Hello there. I am going to design a 8 bit CPU because I actually has design a 3 bit cpu before when I was in form 1. Although the cpu is barely working but it give me a nostalgia feeling. Now, I want to try to design a new CPU that is really working. Since I have some experience in operating system development and I usually use assembly language in AVR development, I can understand the mechanism of CPU quite easy now.</p>
+<h1 id="What-is-the-characteristic-of-this-CPU"><a href="#What-is-the-characteristic-of-this-CPU" class="headerlink" title="What is the characteristic of this CPU"></a>What is the characteristic of this CPU</h1><p>Well, I have to accept the fact that I dont have a silicon factory to make a CPU. Luckily, it is 21 century now. Simulate a CPU in a CPU is a common thing nowaday. So, I am going to run this CPU in Logisim. If possible, I will it into Minecraft redstone computer.</p>
+<p>However, redstone in Minecraft is difference from electronic in real life. The highest frequency redstone can get is 20Hz and the simulation size in Minecraft is 64 chunks. So, I have to do some adaptation to the CPU to make it can run well in Minecraft and here is the list:</p>
+<ul>
+<li>run on low clock frequency (1Hz)</li>
+<li>using RISC to reduce my brain cell damage when designing the cpu</li>
+<li>implement excution pipeline (if possible)</li>
+</ul>
+<h1 id="My-custom-architecture-LBK8"><a href="#My-custom-architecture-LBK8" class="headerlink" title="My custom architecture, LBK8"></a>My custom architecture, LBK8</h1><p>To make a working CPU, a good and optimized architecture is important. It can affect the performance and efficient of CPU greatly. Before I started to design my own architecture, I need to give it a fancy name. After some consideration, I named it <code>LBK8</code>.</p>
+<p>Because this is my first cpu, so I am going to make it simple and only use 8 bit data bus and 8 bit address bus. For the instruction, I am going to fix it into 8 bit size and here is the structure of it:</p>
+<table>
+<thead>
+<tr>
+<th>Oprand</th>
+<th>Opcode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4 bit</td>
+<td>4 bit</td>
+<td>4 bit literal value</td>
+</tr>
+<tr>
+<td>2 bit (reg Y) 2 bit (reg X)</td>
+<td>4 bit</td>
+<td>2 register</td>
+</tr>
+</tbody></table>
+<p>Here is the first list of instruction I think is necessary:</p>
+<table>
+<thead>
+<tr>
+<th>Opcode</th>
+<th>Instruction</th>
+<th>Description</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x0</td>
+<td>JMP</td>
+<td>Jump to oprand</td>
+<td>R -&gt; PC</td>
+</tr>
+<tr>
+<td>0x1</td>
+<td>LLA</td>
+<td>Load 4 bit oprand into lower nibble register A</td>
+<td>R -&gt; A</td>
+</tr>
+<tr>
+<td>0x2</td>
+<td>LHA</td>
+<td>Shift register A to left 4 bit and add 4 bit oprand into register A</td>
+<td>A &lt;&lt; 4 A +&#x3D; R</td>
+</tr>
+<tr>
+<td>0x3</td>
+<td>MOV</td>
+<td>Copy value of register X to register Y</td>
+<td>X -&gt; Y</td>
+</tr>
+<tr>
+<td>0x4</td>
+<td>MOV</td>
+<td>Copy value of register A to RAM with address in oprand</td>
+<td>A -&gt; [R]</td>
+</tr>
+<tr>
+<td>0x5</td>
+<td>ADD</td>
+<td>Add two register and store result into register Y</td>
+<td>(X + Y) -&gt; Y</td>
+</tr>
+<tr>
+<td>0x6</td>
+<td>SUB</td>
+<td>Subtract two register and store result into register Y</td>
+<td>(X - Y) -&gt; Y</td>
+</tr>
+<tr>
+<td>0x7</td>
+<td>AND</td>
+<td>Perform AND operation between two register and store result into register Y</td>
+<td>(X &amp; Y) -&gt; Y</td>
+</tr>
+<tr>
+<td>0x8</td>
+<td>NOT</td>
+<td>Perform NOT operation on register Y and store result into register Y</td>
+<td>!Y -&gt; Y</td>
+</tr>
+<tr>
+<td>0x9</td>
+<td>OR</td>
+<td>Perform OR operation between two register and store result into register Y</td>
+<td>(X or Y) -&gt; Y</td>
+</tr>
+<tr>
+<td>0xA</td>
+<td>CMP</td>
+<td>Compare two register and result is fetchable in next instruction</td>
+<td>cmp(X, Y)</td>
+</tr>
+<tr>
+<td>0xB</td>
+<td>JE</td>
+<td>Jump if E flag is up</td>
+<td>if E, R -&gt; PC</td>
+</tr>
+<tr>
+<td>0xC</td>
+<td>JH</td>
+<td>Jump if H flag is up</td>
+<td>if H, R -&gt; PC</td>
+</tr>
+<tr>
+<td>0xD</td>
+<td>JL</td>
+<td>Jump if L flag is up</td>
+<td>if L, R -&gt; PC</td>
+</tr>
+<tr>
+<td>0xE</td>
+<td>HLT</td>
+<td>Halt cpu by disconnect clock signal</td>
+<td></td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/8-bit-CPU/">8-bit CPU</a>
+                    
+                      <a class="hover-with-bg" href="/tags/non-coding/">non-coding</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/17/8bit-cpu-02/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Design a 8 bit CISC simple and weird CPU</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/09/IoT-farming/">
+                        <span class="hidden-mobile">Building a IoT farming from Swinburne workshop</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+  
+<script src="//at.alicdn.com/t/font_3169125_i0fah447az9.js"></script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
